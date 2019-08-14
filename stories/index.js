@@ -5,10 +5,12 @@ import { action } from "@storybook/addon-actions";
 
 import "index.scss";
 
+import { days, interviewers } from "testData";
 import Button from "components/Button";
 import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
-import { days } from "testData";
+import InterviewerListItem from "components/InterviewerListItem";
+import InterviewerList from "components/InterviewerList";
 
 storiesOf("Button", module)
   .addParameters({
@@ -46,4 +48,47 @@ storiesOf("DayList", module)
   ))
   .add("Tuesday", () => (
     <DayList days={days} day={"Tuesday"} setDay={action("set-day")} />
+  ));
+
+storiesOf("InterviewerListItem")
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+  })
+  .add("Unselected", () => (
+    <InterviewerListItem
+      name={interviewers[0].name}
+      avatar={interviewers[0].avatar}
+    />
+  ))
+  .add("Selected", () => (
+    <InterviewerListItem
+      name={interviewers[0].name}
+      avatar={interviewers[0].avatar}
+      selected
+    />
+  ))
+  .add("Clickable", () => (
+    <InterviewerListItem
+      name={interviewers[0].name}
+      avatar={interviewers[0].avatar}
+      setInterviewer={e => action("set-interviewer")(interviewers[0].id)}
+    />
+  ));
+
+storiesOf("InterviewerList", module)
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+  })
+  .add("Initial", () => (
+    <InterviewerList
+      interviewers={interviewers}
+      onChange={action("setInterviewer")}
+    />
+  ))
+  .add("Preselected", () => (
+    <InterviewerList
+      interviewers={interviewers}
+      value={3}
+      onChange={action("setInterviewer")}
+    />
   ));
